@@ -1,0 +1,394 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		08993B47792C020012B180C4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0446C462A04A6FB5A2FAD1A4 /* ContentView.swift */; };
+		1E94C83EA26EF4B525A200CB /* ZenMLAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCDA3354CDD6B13289CA736 /* ZenMLAPIClient.swift */; };
+		22E4A5A2B4F856A748A6D6FB /* SimpleYAML.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC0B7AF3E1E84AFFB74DE57 /* SimpleYAML.swift */; };
+		31154567D09AE9887DFD68B1 /* ErrorStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A2A1FCB891819832B374FF /* ErrorStateView.swift */; };
+		33CC58AB7281BE0B632105B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8738373321F14066505C3405 /* Assets.xcassets */; };
+		35E13CADA3D50F1997559474 /* MenuBarIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70692A4181B2D324B7A0DF06 /* MenuBarIcon.swift */; };
+		3B6C6C21E064F4B19240C4C3 /* ZenMLConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D428263F4D219A1A4D43AC /* ZenMLConfigManager.swift */; };
+		59DFD957A16EC838E986159F /* ServerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8CB910B51AB6A96F93630E2 /* ServerConnection.swift */; };
+		67A25450D3EEBF35A969A5B4 /* RunStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = A572EA7BB59CCBD881279E7B /* RunStatus.swift */; };
+		762A668E210A18486C6BE92D /* ZenMLProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD5C40541B26267C3227299 /* ZenMLProject.swift */; };
+		78C13203D6714E88F319D888 /* ConnectionStrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAAE00BE817753D55C54130 /* ConnectionStrip.swift */; };
+		85DD360D5204C257789F50D1 /* PipelineRunStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB15F2861796B6D35D482C4 /* PipelineRunStore.swift */; };
+		8B21399756A19D2A87A85479 /* RunRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015F2259416CF0B60735D1A5 /* RunRow.swift */; };
+		A19DD62130D697A0D9ADFC6F /* PipelineRun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070FD32947C00C6E69507599 /* PipelineRun.swift */; };
+		A8F2DFAF737938F296204E61 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52E8A76C90D21A87D46C8F4 /* NotificationManager.swift */; };
+		CFA073A45E8F770BCCC65046 /* ZenMLMenuBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD1112255CCB56FA4248183 /* ZenMLMenuBarApp.swift */; };
+		D66D6B7E3FB39C36B4577F6E /* RunListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EA66C2BC8EFF65009ADF59 /* RunListView.swift */; };
+		DAC745B273B34BFBD07D0A6A /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270B0FAB0AA06D77E1A2F30B /* EmptyStateView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		015F2259416CF0B60735D1A5 /* RunRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunRow.swift; sourceTree = "<group>"; };
+		0446C462A04A6FB5A2FAD1A4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		070FD32947C00C6E69507599 /* PipelineRun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineRun.swift; sourceTree = "<group>"; };
+		17A2A1FCB891819832B374FF /* ErrorStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorStateView.swift; sourceTree = "<group>"; };
+		270B0FAB0AA06D77E1A2F30B /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		2BCDA3354CDD6B13289CA736 /* ZenMLAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZenMLAPIClient.swift; sourceTree = "<group>"; };
+		68EA66C2BC8EFF65009ADF59 /* RunListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunListView.swift; sourceTree = "<group>"; };
+		70692A4181B2D324B7A0DF06 /* MenuBarIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarIcon.swift; sourceTree = "<group>"; };
+		8738373321F14066505C3405 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A52E8A76C90D21A87D46C8F4 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		A572EA7BB59CCBD881279E7B /* RunStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunStatus.swift; sourceTree = "<group>"; };
+		A7D428263F4D219A1A4D43AC /* ZenMLConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZenMLConfigManager.swift; sourceTree = "<group>"; };
+		A8CB910B51AB6A96F93630E2 /* ServerConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConnection.swift; sourceTree = "<group>"; };
+		ADAAE00BE817753D55C54130 /* ConnectionStrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionStrip.swift; sourceTree = "<group>"; };
+		CBC0B7AF3E1E84AFFB74DE57 /* SimpleYAML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleYAML.swift; sourceTree = "<group>"; };
+		CFD5C40541B26267C3227299 /* ZenMLProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZenMLProject.swift; sourceTree = "<group>"; };
+		DBD1112255CCB56FA4248183 /* ZenMLMenuBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZenMLMenuBarApp.swift; sourceTree = "<group>"; };
+		EAB15F2861796B6D35D482C4 /* PipelineRunStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineRunStore.swift; sourceTree = "<group>"; };
+		F88C36D9DF7F9A1C71BDFB4A /* ZenMLMenuBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZenMLMenuBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		2569565BD6A5936D10750066 /* ZenMLMenuBar */ = {
+			isa = PBXGroup;
+			children = (
+				8738373321F14066505C3405 /* Assets.xcassets */,
+				DBD1112255CCB56FA4248183 /* ZenMLMenuBarApp.swift */,
+				BD1890B998A4A2CB9516A76A /* Models */,
+				E0EA7A612ADD9B6FB9D7FF33 /* Services */,
+				A45E6C65961151D811C58255 /* Views */,
+			);
+			path = ZenMLMenuBar;
+			sourceTree = "<group>";
+		};
+		6BCF80124E0F43BF97F73CEC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F88C36D9DF7F9A1C71BDFB4A /* ZenMLMenuBar.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A45E6C65961151D811C58255 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				ADAAE00BE817753D55C54130 /* ConnectionStrip.swift */,
+				0446C462A04A6FB5A2FAD1A4 /* ContentView.swift */,
+				270B0FAB0AA06D77E1A2F30B /* EmptyStateView.swift */,
+				17A2A1FCB891819832B374FF /* ErrorStateView.swift */,
+				70692A4181B2D324B7A0DF06 /* MenuBarIcon.swift */,
+				68EA66C2BC8EFF65009ADF59 /* RunListView.swift */,
+				015F2259416CF0B60735D1A5 /* RunRow.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BD1890B998A4A2CB9516A76A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				070FD32947C00C6E69507599 /* PipelineRun.swift */,
+				A572EA7BB59CCBD881279E7B /* RunStatus.swift */,
+				A8CB910B51AB6A96F93630E2 /* ServerConnection.swift */,
+				CFD5C40541B26267C3227299 /* ZenMLProject.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C71585C1BCE1664587FF4406 = {
+			isa = PBXGroup;
+			children = (
+				2569565BD6A5936D10750066 /* ZenMLMenuBar */,
+				6BCF80124E0F43BF97F73CEC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E0EA7A612ADD9B6FB9D7FF33 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A52E8A76C90D21A87D46C8F4 /* NotificationManager.swift */,
+				EAB15F2861796B6D35D482C4 /* PipelineRunStore.swift */,
+				CBC0B7AF3E1E84AFFB74DE57 /* SimpleYAML.swift */,
+				2BCDA3354CDD6B13289CA736 /* ZenMLAPIClient.swift */,
+				A7D428263F4D219A1A4D43AC /* ZenMLConfigManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8616EB1B240F952CC05C5B53 /* ZenMLMenuBar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BADD1CCE4E5B11A2DCD0D40B /* Build configuration list for PBXNativeTarget "ZenMLMenuBar" */;
+			buildPhases = (
+				0CECDF2073CD13E304BF4E57 /* Sources */,
+				9EE9EC201227332BEE905D1F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ZenMLMenuBar;
+			packageProductDependencies = (
+			);
+			productName = ZenMLMenuBar;
+			productReference = F88C36D9DF7F9A1C71BDFB4A /* ZenMLMenuBar.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AF641467C382799A5D937252 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					8616EB1B240F952CC05C5B53 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = E7DF4DDF59612F59A3696C24 /* Build configuration list for PBXProject "ZenMLMenuBar" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = C71585C1BCE1664587FF4406;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8616EB1B240F952CC05C5B53 /* ZenMLMenuBar */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9EE9EC201227332BEE905D1F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				33CC58AB7281BE0B632105B0 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0CECDF2073CD13E304BF4E57 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78C13203D6714E88F319D888 /* ConnectionStrip.swift in Sources */,
+				08993B47792C020012B180C4 /* ContentView.swift in Sources */,
+				DAC745B273B34BFBD07D0A6A /* EmptyStateView.swift in Sources */,
+				31154567D09AE9887DFD68B1 /* ErrorStateView.swift in Sources */,
+				35E13CADA3D50F1997559474 /* MenuBarIcon.swift in Sources */,
+				A8F2DFAF737938F296204E61 /* NotificationManager.swift in Sources */,
+				A19DD62130D697A0D9ADFC6F /* PipelineRun.swift in Sources */,
+				85DD360D5204C257789F50D1 /* PipelineRunStore.swift in Sources */,
+				D66D6B7E3FB39C36B4577F6E /* RunListView.swift in Sources */,
+				8B21399756A19D2A87A85479 /* RunRow.swift in Sources */,
+				67A25450D3EEBF35A969A5B4 /* RunStatus.swift in Sources */,
+				59DFD957A16EC838E986159F /* ServerConnection.swift in Sources */,
+				22E4A5A2B4F856A748A6D6FB /* SimpleYAML.swift in Sources */,
+				1E94C83EA26EF4B525A200CB /* ZenMLAPIClient.swift in Sources */,
+				3B6C6C21E064F4B19240C4C3 /* ZenMLConfigManager.swift in Sources */,
+				CFA073A45E8F770BCCC65046 /* ZenMLMenuBarApp.swift in Sources */,
+				762A668E210A18486C6BE92D /* ZenMLProject.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6E67D4537AEEC1FE429AF5B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ZenMLMenuBar/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.zenml.menubar;
+				PRODUCT_NAME = "ZenML Menu Bar";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.10;
+			};
+			name = Debug;
+		};
+		9322E176BEF8E7465AFE9738 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		A722716CEAD69B2F2C0D033C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ZenMLMenuBar/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.zenml.menubar;
+				PRODUCT_NAME = "ZenML Menu Bar";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.10;
+			};
+			name = Release;
+		};
+		F1080747F1984D221081F9EB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BADD1CCE4E5B11A2DCD0D40B /* Build configuration list for PBXNativeTarget "ZenMLMenuBar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E67D4537AEEC1FE429AF5B9 /* Debug */,
+				A722716CEAD69B2F2C0D033C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E7DF4DDF59612F59A3696C24 /* Build configuration list for PBXProject "ZenMLMenuBar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F1080747F1984D221081F9EB /* Debug */,
+				9322E176BEF8E7465AFE9738 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AF641467C382799A5D937252 /* Project object */;
+}

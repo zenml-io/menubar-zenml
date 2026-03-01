@@ -1,0 +1,33 @@
+name: ZenMLMenuBar
+options:
+  createIntermediateGroups: true
+settings:
+  base:
+    MACOSX_DEPLOYMENT_TARGET: 14.0
+targets:
+  ZenMLMenuBar:
+    type: application
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: ZenMLMenuBar
+        excludes:
+          - Info.plist
+    resources:
+      - ZenMLMenuBar/Assets.xcassets
+    info:
+      path: ZenMLMenuBar/Info.plist
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.zenml.menubar
+        PRODUCT_NAME: "ZenML Menu Bar"
+        SWIFT_VERSION: "5.10"
+        GENERATE_INFOPLIST_FILE: NO
+        CODE_SIGN_STYLE: Automatic
+schemes:
+  ZenMLMenuBar:
+    build:
+      targets:
+        ZenMLMenuBar: all
+    run:
+      config: Debug
