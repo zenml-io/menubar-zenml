@@ -2,7 +2,6 @@ import SwiftUI
 
 struct MenuBarIcon: View {
     @Environment(PipelineRunStore.self) private var store
-    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -31,12 +30,12 @@ struct MenuBarIcon: View {
 
     private var pipelineGlyph: some View {
         Canvas { context, size in
-            let nodeRadius: CGFloat = 1.6
-            let lineWidth: CGFloat = 1.3
+            let nodeRadius: CGFloat = 2.1
+            let lineWidth: CGFloat = 1.9
 
-            let top = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
-            let left = CGPoint(x: size.width * 0.23, y: size.height * 0.8)
-            let right = CGPoint(x: size.width * 0.77, y: size.height * 0.8)
+            let top = CGPoint(x: size.width * 0.5, y: size.height * 0.16)
+            let left = CGPoint(x: size.width * 0.18, y: size.height * 0.84)
+            let right = CGPoint(x: size.width * 0.82, y: size.height * 0.84)
 
             var lines = Path()
             lines.move(to: top)
@@ -60,6 +59,6 @@ struct MenuBarIcon: View {
     }
 
     private var iconColor: Color {
-        colorScheme == .dark ? .white : Color(red: 0.11, green: 0.11, blue: 0.12)
+        .primary
     }
 }

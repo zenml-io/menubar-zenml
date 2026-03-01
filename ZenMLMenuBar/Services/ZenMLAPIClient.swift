@@ -258,6 +258,7 @@ actor ZenMLAPIClient {
 
         let resolvedPipelineName = body?.pipeline?.name
             ?? dto.pipeline?.name
+            ?? dto.resources?.pipeline?.name
             ?? body?.pipelineName
 
         let resolvedName = body?.name
@@ -265,8 +266,13 @@ actor ZenMLAPIClient {
             ?? resolvedPipelineName
             ?? "Run \(dto.id.uuidString.prefix(8))"
 
-        let projectID = body?.project?.id ?? dto.project?.id
-        let projectName = body?.project?.name ?? dto.project?.name
+        let projectID = body?.project?.id
+            ?? dto.project?.id
+            ?? body?.projectID
+            ?? dto.resources?.project?.id
+        let projectName = body?.project?.name
+            ?? dto.project?.name
+            ?? dto.resources?.project?.name
 
         return PipelineRun(
             id: dto.id,
@@ -294,19 +300,32 @@ actor ZenMLAPIClient {
             let container = try decoder.singleValueContainer()
             let raw = try container.decode(String.self)
 
-            if let date = isoFormatterWithFractional.date(from: raw) {
-                return date
-            }
-            if let date = isoFormatter.date(from: raw) {
+            if let date = parseServerDate(raw) {
                 return date
             }
 
             throw DecodingError.dataCorruptedError(
                 in: container,
-                debugDescription: "Invalid ISO-8601 date: \(raw)"
+                debugDescription: "Invalid date: \(raw)"
             )
         }
         return decoder
+    }
+
+    private static func parseServerDate(_ raw: String) -> Date? {
+        if let date = isoFormatterWithFractional.date(from: raw) {
+            return date
+        }
+        if let date = isoFormatter.date(from: raw) {
+            return date
+        }
+        if let date = localTimestampFormatterWithFractional.date(from: raw) {
+            return date
+        }
+        if let date = localTimestampFormatter.date(from: raw) {
+            return date
+        }
+        return nil
     }
 
     private static let isoFormatterWithFractional: ISO8601DateFormatter = {
@@ -318,6 +337,22 @@ actor ZenMLAPIClient {
     private static let isoFormatter: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime]
+        return formatter
+    }()
+
+    private static let localTimestampFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        return formatter
+    }()
+
+    private static let localTimestampFormatterWithFractional: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
         return formatter
     }()
 }
@@ -336,6 +371,7 @@ private struct RunDTO: Decodable {
     let endTime: Date?
     let pipeline: NamedEntityDTO?
     let project: NamedEntityDTO?
+    let resources: RunResourcesDTO?
     let metadata: RunMetadataDTO?
     let body: RunBodyDTO?
 
@@ -349,6 +385,7 @@ private struct RunDTO: Decodable {
         case endTime = "end_time"
         case pipeline
         case project
+        case resources
         case metadata
         case body
     }
@@ -363,6 +400,7 @@ private struct RunBodyDTO: Decodable {
     let endTime: Date?
     let pipeline: NamedEntityDTO?
     let project: NamedEntityDTO?
+    let projectID: UUID?
     let metadata: RunMetadataDTO?
     let pipelineName: String?
 
@@ -375,9 +413,15 @@ private struct RunBodyDTO: Decodable {
         case endTime = "end_time"
         case pipeline
         case project
+        case projectID = "project_id"
         case metadata
         case pipelineName = "pipeline_name"
     }
+}
+
+private struct RunResourcesDTO: Decodable {
+    let pipeline: NamedEntityDTO?
+    let project: NamedEntityDTO?
 }
 
 private struct RunMetadataDTO: Decodable {
