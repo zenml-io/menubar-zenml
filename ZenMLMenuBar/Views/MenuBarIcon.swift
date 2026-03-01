@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 struct MenuBarIcon: View {
@@ -18,47 +19,48 @@ struct MenuBarIcon: View {
             if store.isDisconnected {
                 Rectangle()
                     .fill(iconColor)
-                    .frame(width: 1.3, height: 18)
+                    .frame(width: 1.4, height: 18)
                     .rotationEffect(.degrees(-35))
                     .offset(x: 0, y: 0)
             }
         }
         .frame(width: 22, height: 16)
-        .opacity(store.isDisconnected ? 0.35 : 1.0)
+        .opacity(store.isDisconnected ? 0.45 : 1.0)
         .accessibilityLabel("ZenML pipeline status")
     }
 
     private var pipelineGlyph: some View {
-        Canvas { context, size in
-            let nodeRadius: CGFloat = 2.1
-            let lineWidth: CGFloat = 1.9
+        ZStack {
+            RoundedRectangle(cornerRadius: 1)
+                .fill(iconColor)
+                .frame(width: 1.8, height: 7.8)
+                .rotationEffect(.degrees(30))
+                .offset(x: -3.4, y: 0.8)
 
-            let top = CGPoint(x: size.width * 0.5, y: size.height * 0.16)
-            let left = CGPoint(x: size.width * 0.18, y: size.height * 0.84)
-            let right = CGPoint(x: size.width * 0.82, y: size.height * 0.84)
+            RoundedRectangle(cornerRadius: 1)
+                .fill(iconColor)
+                .frame(width: 1.8, height: 7.8)
+                .rotationEffect(.degrees(-30))
+                .offset(x: 3.4, y: 0.8)
 
-            var lines = Path()
-            lines.move(to: top)
-            lines.addLine(to: left)
-            lines.move(to: top)
-            lines.addLine(to: right)
-            context.stroke(lines, with: .color(iconColor), lineWidth: lineWidth)
+            Circle()
+                .fill(iconColor)
+                .frame(width: 4.3, height: 4.3)
+                .offset(x: 0, y: -4.1)
 
-            let points = [top, left, right]
-            for point in points {
-                let nodeRect = CGRect(
-                    x: point.x - nodeRadius,
-                    y: point.y - nodeRadius,
-                    width: nodeRadius * 2,
-                    height: nodeRadius * 2
-                )
-                let nodePath = Path(ellipseIn: nodeRect)
-                context.fill(nodePath, with: .color(iconColor))
-            }
+            Circle()
+                .fill(iconColor)
+                .frame(width: 4.3, height: 4.3)
+                .offset(x: -5.2, y: 4.0)
+
+            Circle()
+                .fill(iconColor)
+                .frame(width: 4.3, height: 4.3)
+                .offset(x: 5.2, y: 4.0)
         }
     }
 
     private var iconColor: Color {
-        .primary
+        Color(nsColor: .labelColor)
     }
 }
