@@ -1,31 +1,16 @@
-# ZenML Menu Bar (v0.2)
+# ZenML Menu Bar
 
-A native macOS menu bar app for ZenML Pro.
+A native macOS menu bar app for [ZenML](https://zenml.io). Glance at your pipeline runs without leaving what you're doing.
 
-It provides a fast, glanceable view of recent runs and failures, then deep-links to the ZenML dashboard for deeper investigation.
+**No browser tabs. No context switching.** Just a small icon in your menu bar that keeps you informed.
 
-## Features (v0.2)
+## What It Does
 
-- Reads `config.yaml` + `credentials.yaml` on launch
-- Watches both files for live changes
-- Verifies server connection via `GET /api/v1/current-user`
-- Fetches recent runs via `GET /api/v1/runs?sort_by=desc:created&size=20&hydrate=false`
-- Groups runs in the popover: **In Progress → Failed → Recent**
-- Expandable run rows with inline action bar
-  - Open in Dashboard
-  - Copy Run ID
-  - Show/Hide steps
-- Step-level drill-down via `GET /api/v1/runs/{run_id}/steps?project={uuid}&size=200&hydrate=false`
-  - Shows up to 10 steps inline
-  - Offers "Show all N steps in Dashboard" for longer runs
-- Sends macOS notifications on failure transitions
-  - Includes failed step name when available
-- Shows red badge dot on menu bar icon for unacknowledged failures
-- Adaptive polling: **15s when active runs exist, 3m when idle**
-- Displays active project name in the connection strip
-- Shows cached data dimmed while refreshing or reconnecting
-- Supports token refresh (`grant_type=zenml-external`) on auth expiry
-- Includes a Quit action in the footer
+- **See your recent runs at a glance** — grouped by status: in progress, failed, then recent
+- **Drill into steps** — expand a run to see which step failed or is still running
+- **Get notified on failures** — macOS notifications tell you which pipeline (and which step) broke
+- **Jump to the dashboard** — one click opens the run in ZenML Pro
+- **Stay in sync** — adaptive polling (15s during active runs, 3min when idle) and automatic token refresh
 
 ## Install
 
@@ -35,64 +20,85 @@ It provides a fast, glanceable view of recent runs and failures, then deep-links
 brew install --cask zenml-io/tap/zenml-menubar
 ```
 
-Tap repository: https://github.com/zenml-io/homebrew-tap
-
 ### Manual
 
-Download the latest `.zip` from GitHub Releases, unzip, and drag **ZenML Menu Bar.app** to `/Applications`.
+Download the latest `.zip` from [GitHub Releases](https://github.com/zenml-io/menubar-zenml/releases), unzip, and drag **ZenML Menu Bar.app** to `/Applications`.
 
-### First Launch (Gatekeeper bypass)
+### First Launch
 
-This app is not yet notarized with Apple, so macOS will block it on first launch. After installing, run:
+This app is not yet notarized with Apple, so macOS will block it on first launch. Run this once after installing:
 
 ```bash
 xattr -dr com.apple.quarantine "/Applications/ZenML Menu Bar.app"
 ```
 
-Then open the app normally. This only needs to be done once.
+Then open the app normally. You won't need to do this again.
 
-## Requirements
+## Prerequisites
 
-- macOS 14+ (Sonoma)
-- Xcode 15+ (for local builds)
+- **macOS 14+** (Sonoma or later)
+- **ZenML Pro** account with an active server — the app reads your existing ZenML CLI config, so just make sure `zenml login` works first
 
-## Build
+## How It Works
+
+The app reads your ZenML CLI configuration from `~/Library/Application Support/zenml/` (or `$ZENML_CONFIG_PATH` if set). It uses the server URL and credentials already stored there — no extra setup needed.
+
+It's **read-only**: it never modifies your config files or makes any changes to your ZenML server.
+
+## Development
+
+### Requirements
+
+- Xcode 16+ (the project uses Swift 5.9+ and SwiftUI with `@Observable`)
+- [XcodeGen](https://github.com/yonaskolb/XcodeGen) (optional, for regenerating the project file)
+
+### Build & Run
 
 ```bash
-xcodebuild -project ZenMLMenuBar.xcodeproj -scheme ZenMLMenuBar -configuration Debug SYMROOT=build build
-```
+# Build from command line
+xcodebuild -project ZenMLMenuBar.xcodeproj \
+  -scheme ZenMLMenuBar \
+  -configuration Debug \
+  SYMROOT=build build
 
-## Run
-
-```bash
+# Run
 open build/Debug/ZenML\ Menu\ Bar.app
 ```
 
-If Xcode reports stale-file warnings from old DerivedData outputs, you can ignore them or clean once:
+Or just open `ZenMLMenuBar.xcodeproj` in Xcode and hit Run.
 
-```bash
-rm -rf ~/Library/Developer/Xcode/DerivedData/ZenMLMenuBar-*
+### Project Structure
+
+```
+ZenMLMenuBar/
+├── ZenMLMenuBarApp.swift          # Entry point (MenuBarExtra)
+├── Models/
+│   ├── PipelineRun.swift          # Run data model
+│   └── StepRun.swift              # Step data model
+├── Services/
+│   ├── ZenMLConfigManager.swift   # Config file watching + parsing
+│   ├── ZenMLAPIClient.swift       # REST API client with auth
+│   ├── PipelineRunStore.swift     # Central state + polling logic
+│   └── NotificationManager.swift  # Failure notifications
+└── Views/
+    ├── RunListView.swift          # Sectioned run list
+    ├── RunRow.swift               # Expandable run row
+    ├── StepListView.swift         # Inline step list
+    ├── StepStatusDot.swift        # Colored status indicator
+    └── ...
 ```
 
-Or open in Xcode:
+### Architecture
 
-```bash
-open ZenMLMenuBar.xcodeproj
-```
+Four layers, each depending only on the one above:
 
-## Configuration Source
+1. **ConfigManager** — reads and file-watches ZenML config/credentials
+2. **APIClient** — thin REST client with bearer token auth and 401 retry
+3. **PipelineRunStore** — central `@Observable` state driving polling, steps, and notifications
+4. **Views** — SwiftUI popover rendering the run list and step drill-down
 
-The app reads ZenML CLI config files from:
+No third-party dependencies. Pure `URLSession` + SwiftUI + `UserNotifications`.
 
-- Default: `~/Library/Application Support/zenml/`
-  - `config.yaml`
-  - `credentials.yaml`
-- Override: `ZENML_CONFIG_PATH` (if set)
+## License
 
-The app is **read-only** with respect to these files.
-
-## Notes
-
-- `LSUIElement=true` is set so the app stays in the menu bar and does not show in the Dock.
-- No third-party runtime dependencies are used (`URLSession` + SwiftUI + UserNotifications).
-- Repo-specific agent guidance is documented in `AGENTS.md`.
+[Apache 2.0](LICENSE)
