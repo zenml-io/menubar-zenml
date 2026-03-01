@@ -4,6 +4,8 @@ options:
 settings:
   base:
     MACOSX_DEPLOYMENT_TARGET: 14.0
+    MARKETING_VERSION: 0.2.0
+    CURRENT_PROJECT_VERSION: 1
 targets:
   ZenMLMenuBar:
     type: application

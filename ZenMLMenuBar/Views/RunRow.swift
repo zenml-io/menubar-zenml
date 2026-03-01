@@ -5,44 +5,140 @@ struct RunRow: View {
     let run: PipelineRun
 
     @State private var isHovered = false
+    @State private var isExpanded = false
+    @State private var showSteps = false
 
     var body: some View {
-        Button {
-            store.openRunInDashboard(run)
-        } label: {
-            VStack(alignment: .leading, spacing: 6) {
-                HStack(alignment: .center, spacing: 8) {
-                    Text(run.title)
-                        .font(.system(size: 12.5, weight: .semibold))
-                        .lineLimit(1)
-
-                    Spacer(minLength: 8)
-
-                    StatusPill(status: run.status)
+        VStack(alignment: .leading, spacing: 8) {
+            header
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    withAnimation(.spring(duration: 0.25)) {
+                        isExpanded.toggle()
+                        if !isExpanded {
+                            showSteps = false
+                        }
+                    }
                 }
 
-                HStack(spacing: 5) {
-                    Text(run.ageText)
-                    Text("•")
-                    Text(run.durationText)
+            if isExpanded {
+                Divider()
+
+                actionBar
+
+                if showSteps {
+                    stepSection
+                        .transition(.opacity.combined(with: .move(edge: .top)))
                 }
-                .font(.system(size: 11))
-                .foregroundStyle(.secondary)
             }
-            .padding(.horizontal, 10)
-            .padding(.vertical, 9)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(rowBackground)
-            .overlay(
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .strokeBorder(borderColor, lineWidth: 0.5)
-            )
         }
-        .buttonStyle(.plain)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 9)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(rowBackground)
+        .overlay(
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .strokeBorder(borderColor, lineWidth: 0.5)
+        )
         .onHover { hovering in
             withAnimation(.easeInOut(duration: 0.12)) {
                 isHovered = hovering
             }
+        }
+    }
+
+    private var header: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(alignment: .center, spacing: 8) {
+                Text(run.title)
+                    .font(.system(size: 12.5, weight: .semibold))
+                    .lineLimit(1)
+
+                Spacer(minLength: 8)
+
+                StatusPill(status: run.status)
+            }
+
+            HStack(spacing: 5) {
+                Text(run.ageText)
+                Text("•")
+                Text(run.durationText)
+            }
+            .font(.system(size: 11))
+            .foregroundStyle(.secondary)
+        }
+    }
+
+    private var actionBar: some View {
+        HStack(spacing: 12) {
+            Button("Open in Dashboard") {
+                store.openRunInDashboard(run)
+            }
+
+            Button("Copy Run ID") {
+                store.copyRunID(run)
+            }
+
+            Button(showSteps ? "Hide Steps" : "Show Steps") {
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    showSteps.toggle()
+                }
+
+                guard showSteps else {
+                    return
+                }
+
+                Task {
+                    await store.ensureStepsLoaded(for: run, forceReload: run.inProgress)
+                }
+            }
+
+            Spacer(minLength: 0)
+        }
+        .font(.system(size: 11, weight: .semibold))
+        .buttonStyle(.borderless)
+    }
+
+    @ViewBuilder
+    private var stepSection: some View {
+        switch store.stepState(for: run.id) {
+        case .notLoaded, .loading:
+            HStack(spacing: 8) {
+                ProgressView()
+                    .controlSize(.small)
+                Text("Loading steps…")
+                    .font(.system(size: 11))
+                    .foregroundStyle(.secondary)
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 8)
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+        case .failed(let message):
+            VStack(alignment: .leading, spacing: 6) {
+                Text(message)
+                    .font(.system(size: 11))
+                    .foregroundStyle(.secondary)
+                Button("Retry") {
+                    Task {
+                        await store.ensureStepsLoaded(for: run, forceReload: true)
+                    }
+                }
+                .buttonStyle(.borderless)
+                .font(.system(size: 11, weight: .semibold))
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 8)
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+        case .loaded(let steps):
+            StepListView(
+                steps: steps,
+                maxInlineCount: 10,
+                openAllInDashboard: {
+                    store.openRunInDashboard(run)
+                }
+            )
         }
     }
 

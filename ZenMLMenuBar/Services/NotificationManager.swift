@@ -17,7 +17,12 @@ actor NotificationManager {
         _ = try? await center.requestAuthorization(options: [.alert, .sound, .badge])
     }
 
-    func notifyRunFailed(run: PipelineRun, serverName: String?, projectName: String?) async {
+    func notifyRunFailed(
+        run: PipelineRun,
+        serverName: String?,
+        projectName: String?,
+        failedStepName: String?
+    ) async {
         let settings = await center.notificationSettings()
         guard settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional else {
             return
@@ -26,7 +31,14 @@ actor NotificationManager {
         let content = UNMutableNotificationContent()
         content.title = "ZenML pipeline failed"
 
-        var pieces = ["\(run.title) failed"]
+        let trimmedFailedStepName = failedStepName?.trimmingCharacters(in: .whitespacesAndNewlines)
+        let failureLead = if let trimmedFailedStepName, !trimmedFailedStepName.isEmpty {
+            "\(run.title) failed at step '\(trimmedFailedStepName)'"
+        } else {
+            "\(run.title) failed"
+        }
+
+        var pieces = [failureLead]
         if let projectName, !projectName.isEmpty {
             pieces.append("Project: \(projectName)")
         }

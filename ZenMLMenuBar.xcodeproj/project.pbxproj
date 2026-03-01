@@ -16,6 +16,7 @@
 		3B6C6C21E064F4B19240C4C3 /* ZenMLConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D428263F4D219A1A4D43AC /* ZenMLConfigManager.swift */; };
 		59DFD957A16EC838E986159F /* ServerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8CB910B51AB6A96F93630E2 /* ServerConnection.swift */; };
 		67A25450D3EEBF35A969A5B4 /* RunStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = A572EA7BB59CCBD881279E7B /* RunStatus.swift */; };
+		7025732B69A0F14B42346509 /* StepListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFCDEAE00E1CD1E80724505 /* StepListView.swift */; };
 		762A668E210A18486C6BE92D /* ZenMLProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD5C40541B26267C3227299 /* ZenMLProject.swift */; };
 		78C13203D6714E88F319D888 /* ConnectionStrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAAE00BE817753D55C54130 /* ConnectionStrip.swift */; };
 		85DD360D5204C257789F50D1 /* PipelineRunStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAB15F2861796B6D35D482C4 /* PipelineRunStore.swift */; };
@@ -23,8 +24,10 @@
 		A19DD62130D697A0D9ADFC6F /* PipelineRun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070FD32947C00C6E69507599 /* PipelineRun.swift */; };
 		A8F2DFAF737938F296204E61 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52E8A76C90D21A87D46C8F4 /* NotificationManager.swift */; };
 		CFA073A45E8F770BCCC65046 /* ZenMLMenuBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD1112255CCB56FA4248183 /* ZenMLMenuBarApp.swift */; };
+		D0F82240DFB32294DDB3FE50 /* StepStatusDot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399B53737E161E2F738D7D53 /* StepStatusDot.swift */; };
 		D66D6B7E3FB39C36B4577F6E /* RunListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EA66C2BC8EFF65009ADF59 /* RunListView.swift */; };
 		DAC745B273B34BFBD07D0A6A /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270B0FAB0AA06D77E1A2F30B /* EmptyStateView.swift */; };
+		EEFD166BFDCAB59ED88C982C /* StepRun.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6326336907436FEE8087151D /* StepRun.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,9 +37,12 @@
 		17A2A1FCB891819832B374FF /* ErrorStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorStateView.swift; sourceTree = "<group>"; };
 		270B0FAB0AA06D77E1A2F30B /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		2BCDA3354CDD6B13289CA736 /* ZenMLAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZenMLAPIClient.swift; sourceTree = "<group>"; };
+		399B53737E161E2F738D7D53 /* StepStatusDot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepStatusDot.swift; sourceTree = "<group>"; };
+		6326336907436FEE8087151D /* StepRun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepRun.swift; sourceTree = "<group>"; };
 		68EA66C2BC8EFF65009ADF59 /* RunListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunListView.swift; sourceTree = "<group>"; };
 		70692A4181B2D324B7A0DF06 /* MenuBarIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarIcon.swift; sourceTree = "<group>"; };
 		8738373321F14066505C3405 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9BFCDEAE00E1CD1E80724505 /* StepListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepListView.swift; sourceTree = "<group>"; };
 		A52E8A76C90D21A87D46C8F4 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		A572EA7BB59CCBD881279E7B /* RunStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunStatus.swift; sourceTree = "<group>"; };
 		A7D428263F4D219A1A4D43AC /* ZenMLConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZenMLConfigManager.swift; sourceTree = "<group>"; };
@@ -80,6 +86,8 @@
 				70692A4181B2D324B7A0DF06 /* MenuBarIcon.swift */,
 				68EA66C2BC8EFF65009ADF59 /* RunListView.swift */,
 				015F2259416CF0B60735D1A5 /* RunRow.swift */,
+				9BFCDEAE00E1CD1E80724505 /* StepListView.swift */,
+				399B53737E161E2F738D7D53 /* StepStatusDot.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -90,6 +98,7 @@
 				070FD32947C00C6E69507599 /* PipelineRun.swift */,
 				A572EA7BB59CCBD881279E7B /* RunStatus.swift */,
 				A8CB910B51AB6A96F93630E2 /* ServerConnection.swift */,
+				6326336907436FEE8087151D /* StepRun.swift */,
 				CFD5C40541B26267C3227299 /* ZenMLProject.swift */,
 			);
 			path = Models;
@@ -198,6 +207,9 @@
 				67A25450D3EEBF35A969A5B4 /* RunStatus.swift in Sources */,
 				59DFD957A16EC838E986159F /* ServerConnection.swift in Sources */,
 				22E4A5A2B4F856A748A6D6FB /* SimpleYAML.swift in Sources */,
+				7025732B69A0F14B42346509 /* StepListView.swift in Sources */,
+				EEFD166BFDCAB59ED88C982C /* StepRun.swift in Sources */,
+				D0F82240DFB32294DDB3FE50 /* StepStatusDot.swift in Sources */,
 				1E94C83EA26EF4B525A200CB /* ZenMLAPIClient.swift in Sources */,
 				3B6C6C21E064F4B19240C4C3 /* ZenMLConfigManager.swift in Sources */,
 				CFA073A45E8F770BCCC65046 /* ZenMLMenuBarApp.swift in Sources */,
@@ -262,6 +274,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -274,6 +287,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.2.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -338,6 +352,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -356,6 +371,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.2.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;

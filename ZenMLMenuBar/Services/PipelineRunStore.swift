@@ -11,12 +11,33 @@ enum ConnectionState: Equatable, Sendable {
     case serverError(reason: String, retryAfter: TimeInterval)
 }
 
+enum StepListState: Equatable, Sendable {
+    case notLoaded
+    case loading
+    case loaded([StepRun])
+    case failed(String)
+}
+
+private enum StepFetchTimeoutError: Error {
+    case timedOut
+    case noResult
+}
+
+private final class StepLoadTaskBox {
+    let task: Task<[StepRun], Error>
+
+    init(task: Task<[StepRun], Error>) {
+        self.task = task
+    }
+}
+
 @MainActor
 @Observable
 final class PipelineRunStore {
     var connectionState: ConnectionState = .loading
     var runs: [PipelineRun] = []
     var cachedRuns: [PipelineRun] = []
+    var stepsByRunID: [UUID: StepListState] = [:]
     var lastRefreshedAt: Date?
 
     var serverName: String = "No server configured"
@@ -129,6 +150,8 @@ final class PipelineRunStore {
 
     private var currentSnapshot: ActiveConfigSnapshot?
     private var lastResolvedProjectID: UUID?
+    private var visibleRunIDs: Set<UUID> = []
+    private var stepLoadTasks: [UUID: StepLoadTaskBox] = [:]
 
     init(
         configManager: ZenMLConfigManager = ZenMLConfigManager(),
@@ -169,6 +192,71 @@ final class PipelineRunStore {
             return
         }
         NSWorkspace.shared.open(url)
+    }
+
+    func copyRunID(_ run: PipelineRun) {
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.setString(run.id.uuidString.lowercased(), forType: .string)
+    }
+
+    func stepState(for runID: UUID) -> StepListState {
+        stepsByRunID[runID] ?? .notLoaded
+    }
+
+    func ensureStepsLoaded(for run: PipelineRun, forceReload: Bool = false) async {
+        let runID = run.id
+
+        if !forceReload {
+            switch stepState(for: runID) {
+            case .loading, .loaded:
+                return
+            case .notLoaded, .failed:
+                break
+            }
+        }
+
+        if forceReload {
+            stepLoadTasks[runID]?.task.cancel()
+            stepLoadTasks[runID] = nil
+        }
+
+        guard let projectID = resolveProjectID(for: run) else {
+            if visibleRunIDs.contains(runID) {
+                stepsByRunID[runID] = .failed("Missing project scope for step query.")
+            }
+            return
+        }
+
+        if visibleRunIDs.contains(runID) {
+            stepsByRunID[runID] = .loading
+        }
+
+        do {
+            let steps = try await fetchStepsForRun(runID: runID, projectID: projectID)
+            guard visibleRunIDs.contains(runID) else {
+                return
+            }
+            stepsByRunID[runID] = .loaded(steps)
+        } catch is CancellationError {
+            return
+        } catch {
+            guard visibleRunIDs.contains(runID) else {
+                return
+            }
+            stepsByRunID[runID] = .failed("Failed to load steps.")
+        }
+    }
+
+    func invalidateSteps(forRunIDsNotIn activeRunIDs: Set<UUID>) {
+        visibleRunIDs = activeRunIDs
+        stepsByRunID = stepsByRunID.filter { activeRunIDs.contains($0.key) }
+
+        let staleTaskRunIDs = stepLoadTasks.keys.filter { !activeRunIDs.contains($0) }
+        for staleRunID in staleTaskRunIDs {
+            stepLoadTasks[staleRunID]?.task.cancel()
+            stepLoadTasks[staleRunID] = nil
+        }
     }
 
     func dashboardURL(for run: PipelineRun) -> URL? {
@@ -340,10 +428,13 @@ final class PipelineRunStore {
                 lastResolvedProjectID = activeProjectID
             }
 
+            let refreshedRunIDs = Set(refreshedRuns.map(\.id))
+            visibleRunIDs = refreshedRunIDs
             processFailureTransitions(using: refreshedRuns)
 
             runs = refreshedRuns
             cachedRuns = refreshedRuns
+            invalidateSteps(forRunIDsNotIn: refreshedRunIDs)
             lastRefreshedAt = Date()
             connectionState = refreshedRuns.isEmpty ? .empty : .connected
 
@@ -390,13 +481,117 @@ final class PipelineRunStore {
             knownFailedRunIDs.insert(run.id)
             unacknowledgedFailedRunIDs.insert(run.id)
 
-            Task {
-                await notificationManager.notifyRunFailed(
+            Task { [weak self] in
+                guard let self else {
+                    return
+                }
+
+                let failedStepName = await self.resolveFailedStepNameForNotification(run: run)
+                await self.notificationManager.notifyRunFailed(
                     run: run,
-                    serverName: serverName,
-                    projectName: projectName
+                    serverName: self.serverName,
+                    projectName: self.projectName,
+                    failedStepName: failedStepName
                 )
             }
+        }
+    }
+
+    private func resolveProjectID(for run: PipelineRun) -> UUID? {
+        run.projectID ?? currentSnapshot?.activeProjectID
+    }
+
+    private func fetchStepsForRun(
+        runID: UUID,
+        projectID: UUID,
+        timeout: TimeInterval? = nil
+    ) async throws -> [StepRun] {
+        let taskBox: StepLoadTaskBox
+        let createdTask: Bool
+
+        if let existingTaskBox = stepLoadTasks[runID] {
+            taskBox = existingTaskBox
+            createdTask = false
+        } else {
+            let task = Task { [apiClient] in
+                try await apiClient.fetchRunSteps(runID: runID, projectID: projectID)
+            }
+            taskBox = StepLoadTaskBox(task: task)
+            stepLoadTasks[runID] = taskBox
+            createdTask = true
+        }
+
+        defer {
+            if createdTask, stepLoadTasks[runID] === taskBox {
+                stepLoadTasks[runID] = nil
+            }
+        }
+
+        let stepTask = taskBox.task
+
+        do {
+            if let timeout, timeout > 0 {
+                return try await Self.withTimeout(seconds: timeout) {
+                    try await stepTask.value
+                }
+            }
+            return try await stepTask.value
+        } catch {
+            if createdTask, error is StepFetchTimeoutError {
+                stepTask.cancel()
+            }
+            throw error
+        }
+    }
+
+    private func firstFailedStepName(in steps: [StepRun]) -> String? {
+        steps.first(where: { $0.status == .failed })?.name
+    }
+
+    private func resolveFailedStepNameForNotification(run: PipelineRun) async -> String? {
+        if case .loaded(let cachedSteps) = stepState(for: run.id) {
+            return firstFailedStepName(in: cachedSteps)
+        }
+
+        guard let projectID = resolveProjectID(for: run) else {
+            return nil
+        }
+
+        do {
+            let fetchedSteps = try await fetchStepsForRun(
+                runID: run.id,
+                projectID: projectID,
+                timeout: 1.5
+            )
+            if visibleRunIDs.contains(run.id) {
+                stepsByRunID[run.id] = .loaded(fetchedSteps)
+            }
+            return firstFailedStepName(in: fetchedSteps)
+        } catch is CancellationError {
+            return nil
+        } catch {
+            return nil
+        }
+    }
+
+    private static func withTimeout<T: Sendable>(
+        seconds: TimeInterval,
+        operation: @Sendable @escaping () async throws -> T
+    ) async throws -> T {
+        try await withThrowingTaskGroup(of: T.self) { group in
+            group.addTask {
+                try await operation()
+            }
+            group.addTask {
+                try await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
+                throw StepFetchTimeoutError.timedOut
+            }
+
+            guard let firstResult = try await group.next() else {
+                throw StepFetchTimeoutError.noResult
+            }
+            group.cancelAll()
+            return firstResult
         }
     }
 

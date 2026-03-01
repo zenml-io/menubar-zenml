@@ -1,0 +1,49 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build release app
+        run: |
+          xcodebuild \
+            -project ZenMLMenuBar.xcodeproj \
+            -scheme ZenMLMenuBar \
+            -configuration Release \
+            -derivedDataPath build \
+            -arch arm64 -arch x86_64 \
+            ONLY_ACTIVE_ARCH=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            build
+
+      - name: Package app
+        run: |
+          APP_PATH="build/Build/Products/Release/ZenML Menu Bar.app"
+          ZIP_PATH="build/Build/Products/Release/ZenMLMenuBar-${GITHUB_REF_NAME}.zip"
+
+          test -d "$APP_PATH"
+          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" "$ZIP_PATH"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ZenMLMenuBar-${{ github.ref_name }}
+          path: build/Build/Products/Release/ZenMLMenuBar-${{ github.ref_name }}.zip
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/Build/Products/Release/ZenMLMenuBar-${{ github.ref_name }}.zip
+          draft: true

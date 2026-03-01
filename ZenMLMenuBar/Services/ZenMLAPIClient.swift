@@ -108,6 +108,25 @@ actor ZenMLAPIClient {
         }
     }
 
+    func fetchRunSteps(runID: UUID, projectID: UUID, limit: Int = 200) async throws -> [StepRun] {
+        let data = try await authenticatedData(
+            path: "runs/\(runID.uuidString.lowercased())/steps",
+            queryItems: [
+                .init(name: "project", value: projectID.uuidString.lowercased()),
+                .init(name: "size", value: String(limit)),
+                .init(name: "hydrate", value: "false")
+            ],
+            allowRetryOnUnauthorized: true
+        )
+
+        do {
+            let page = try decoder.decode(PageDTO<StepDTO>.self, from: data)
+            return page.items.map(mapStep)
+        } catch {
+            throw APIClientError.decodingFailed(error.localizedDescription)
+        }
+    }
+
     func fetchProjectName(projectID: UUID) async throws -> String? {
         let data = try await authenticatedData(
             path: "projects",
@@ -285,6 +304,22 @@ actor ZenMLAPIClient {
             endTime: body?.endTime ?? dto.endTime ?? metadata?.endTime,
             projectID: projectID,
             projectName: projectName
+        )
+    }
+
+    private func mapStep(_ dto: StepDTO) -> StepRun {
+        let statusRaw = dto.body?.status ?? "pending"
+        let status = RunStatus(rawValue: statusRaw)
+
+        let trimmedName = dto.name?.trimmingCharacters(in: .whitespacesAndNewlines)
+        let resolvedName = (trimmedName?.isEmpty == false) ? trimmedName! : "Unnamed step"
+
+        return StepRun(
+            id: dto.id,
+            name: resolvedName,
+            status: status,
+            startTime: dto.body?.startTime,
+            endTime: dto.body?.endTime
         )
     }
 
@@ -470,5 +505,33 @@ private struct ProjectDTO: Decodable {
 
     var resolvedName: String? {
         body?.name ?? name
+    }
+}
+
+private struct StepDTO: Decodable {
+    let id: UUID
+    let name: String?
+    let body: StepBodyDTO?
+    let permissionDenied: Bool?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case body
+        case permissionDenied = "permission_denied"
+    }
+}
+
+private struct StepBodyDTO: Decodable {
+    let status: String?
+    let startTime: Date?
+    let endTime: Date?
+    let created: Date?
+
+    enum CodingKeys: String, CodingKey {
+        case status
+        case startTime = "start_time"
+        case endTime = "end_time"
+        case created
     }
 }
