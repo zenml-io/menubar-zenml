@@ -28,13 +28,19 @@ It provides a fast, glanceable view of recent runs and failures, then deep-links
 ## Build
 
 ```bash
-xcodebuild -project ZenMLMenuBar.xcodeproj -scheme ZenMLMenuBar -configuration Debug build
+xcodebuild -project ZenMLMenuBar.xcodeproj -scheme ZenMLMenuBar -configuration Debug SYMROOT=build build
 ```
 
 ## Run
 
 ```bash
 open build/Debug/ZenML\ Menu\ Bar.app
+```
+
+If Xcode reports stale-file warnings from old DerivedData outputs, you can ignore them or clean once:
+
+```bash
+rm -rf ~/Library/Developer/Xcode/DerivedData/ZenMLMenuBar-*
 ```
 
 Or open in Xcode:

@@ -21,7 +21,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: io.zenml.menubar
         PRODUCT_NAME: "ZenML Menu Bar"
-        SWIFT_VERSION: "5.10"
+        SWIFT_VERSION: "5.0"
         GENERATE_INFOPLIST_FILE: NO
         CODE_SIGN_STYLE: Automatic
 schemes:

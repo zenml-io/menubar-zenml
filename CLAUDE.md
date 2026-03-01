@@ -20,7 +20,7 @@ MVP v0.1 implementation is present in `ZenMLMenuBar/` with the full models/servi
 
 ```bash
 # Build from command line
-xcodebuild -project ZenMLMenuBar.xcodeproj -scheme ZenMLMenuBar -configuration Debug build
+xcodebuild -project ZenMLMenuBar.xcodeproj -scheme ZenMLMenuBar -configuration Debug SYMROOT=build build
 
 # Run (after building)
 open build/Debug/ZenML\ Menu\ Bar.app

@@ -27,7 +27,9 @@ struct PipelineRun: Identifiable, Hashable, Sendable {
         guard let referenceDate = startTime ?? createdAt else {
             return "Just now"
         }
-        return PipelineRun.relativeFormatter.localizedString(for: referenceDate, relativeTo: Date())
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .abbreviated
+        return formatter.localizedString(for: referenceDate, relativeTo: Date())
     }
 
     var durationText: String {
@@ -50,9 +52,4 @@ struct PipelineRun: Identifiable, Hashable, Sendable {
         return "\(seconds)s"
     }
 
-    private static let relativeFormatter: RelativeDateTimeFormatter = {
-        let formatter = RelativeDateTimeFormatter()
-        formatter.unitsStyle = .abbreviated
-        return formatter
-    }()
 }

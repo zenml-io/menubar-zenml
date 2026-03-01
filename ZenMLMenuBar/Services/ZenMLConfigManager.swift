@@ -183,11 +183,13 @@ final class ZenMLConfigManager {
                     proAPIURL: nil,
                     proDashboardURL: nil
                 )
-            } else {
-                activeCredentials?.apiToken = choosePreferredToken(
-                    fileToken: activeCredentials?.apiToken,
+            } else if var currentCredentials = activeCredentials {
+                let selectedToken = choosePreferredToken(
+                    fileToken: currentCredentials.apiToken,
                     memoryToken: memoryToken
                 )
+                currentCredentials.apiToken = selectedToken
+                activeCredentials = currentCredentials
             }
         }
 
