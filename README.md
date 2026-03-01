@@ -41,7 +41,15 @@ Tap repository: https://github.com/zenml-io/homebrew-tap
 
 Download the latest `.zip` from GitHub Releases, unzip, and drag **ZenML Menu Bar.app** to `/Applications`.
 
-Phase 1 distribution is not notarized yet. On first launch, you may need to right-click the app and choose **Open**.
+### First Launch (Gatekeeper bypass)
+
+This app is not yet notarized with Apple, so macOS will block it on first launch. After installing, run:
+
+```bash
+xattr -dr com.apple.quarantine "/Applications/ZenML Menu Bar.app"
+```
+
+Then open the app normally. This only needs to be done once.
 
 ## Requirements
 
