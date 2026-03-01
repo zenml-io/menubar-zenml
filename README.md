@@ -2,6 +2,8 @@
 
 A native macOS menu bar app for [ZenML](https://zenml.io). Glance at your pipeline runs without leaving what you're doing.
 
+<img width="934" height="1152" alt="CleanShot 2026-03-01 at 21 08 03@2x" src="https://github.com/user-attachments/assets/b1668865-78e9-41a5-bb6d-9b3331baf679" />
+
 **No browser tabs. No context switching.** Just a small icon in your menu bar that keeps you informed.
 
 ## What It Does
